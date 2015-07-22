@@ -30,7 +30,7 @@ def zone_id
 end
 
 def route53
-  require 'aws-sdk'
+  require 'aws-sdk-resources'
 
   @route53 ||= begin
     if mock?
@@ -111,8 +111,6 @@ def change_record(action)
 end
 
 action :create do
-  require 'aws-sdk'
-
   if current_resource_record_set == resource_record_set
     Chef::Log.debug "Current resources match specification"
   else
@@ -127,7 +125,6 @@ action :create do
 end
 
 action :delete do
-  require 'aws-sdk-resources'
 
   if mock?
     # Make some fake data so that we can successfully delete when testing.

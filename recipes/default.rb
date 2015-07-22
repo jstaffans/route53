@@ -27,6 +27,7 @@ chef_gem 'aws-sdk' do
 end
 
 require 'rubygems'
-require 'aws-sdk' 
+# require v2 sdk specifically
+require 'aws-sdk-resources' 
 
 Gem.clear_paths

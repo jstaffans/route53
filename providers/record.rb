@@ -127,7 +127,7 @@ action :create do
 end
 
 action :delete do
-  require 'aws-sdk'
+  require 'aws-sdk-resources'
 
   if mock?
     # Make some fake data so that we can successfully delete when testing.

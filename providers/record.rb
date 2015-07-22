@@ -1,3 +1,4 @@
+require 'aws-sdk'
 
 def name
   @name ||= begin
@@ -31,19 +32,19 @@ def zone_id
 end
 
 def route53
-  require 'aws-sdk'
+
   @route53 ||= begin
     if mock?
-      @route53 = Aws::Route53::Client.new(stub_responses: true)
+      @route53 = ::Aws::Route53::Client.new(stub_responses: true)
     elsif new_resource.aws_access_key_id && new_resource.aws_secret_access_key
-      @route53 = Aws::Route53::Client.new(
+      @route53 = ::Aws::Route53::Client.new(
         access_key_id: new_resource.aws_access_key_id,
         secret_access_key: new_resource.aws_secret_access_key,
         region: new_resource.aws_region
       )
     else
       Chef::Log.info "No AWS credentials supplied, going to attempt to use automatic credentials from IAM or ENV"
-      @route53 = Aws::Route53::Client.new(
+      @route53 = ::Aws::Route53::Client.new(
         region: new_resource.aws_region
       )
     end
@@ -104,7 +105,7 @@ def change_record(action)
 
     response = route53.change_resource_record_sets(request)
     Chef::Log.debug "Changed record - #{action}: #{response.inspect}"
-  rescue Aws::Route53::Errors::ServiceError => e
+  rescue ::Aws::Route53::Errors::ServiceError => e
     Chef::Log.error "Error with #{action}request: #{request.inspect} ::: "
     Chef::Log.error e.message
   end

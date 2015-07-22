@@ -1,5 +1,3 @@
-require 'aws-sdk'
-
 def name
   @name ||= begin
     return new_resource.name + '.' if new_resource.name !~ /\.$/
@@ -32,6 +30,7 @@ def zone_id
 end
 
 def route53
+  require 'aws-sdk'
 
   @route53 ||= begin
     if mock?
